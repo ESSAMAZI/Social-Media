@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:media/cubits/Register/cubit.dart';
 import 'package:media/cubits/Register/states.dart';
+import 'package:media/layout/media_layout.dart';
 import 'package:media/modules/media_login_screen.dart';
 import 'package:media/shared/components/components.dart';
 
@@ -21,7 +22,11 @@ class MediaRegisterScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => MediaRegisterCubit(),
       child: BlocConsumer<MediaRegisterCubit, MediaRegisterStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is MediaCreteUserSuccessState) {
+            navigateAndFinish(context, const MediaLayout());
+          }
+        },
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(),

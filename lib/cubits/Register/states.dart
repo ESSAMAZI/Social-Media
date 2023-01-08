@@ -15,3 +15,11 @@ class MediaRegisterErrorState extends MediaRegisterStates {
 }
 
 class MediaRegisterChangePasswordVisibilityState extends MediaRegisterStates {}
+
+class MediaCreteUserSuccessState extends MediaRegisterStates {}
+
+class MediaCreteUserErrorState extends MediaRegisterStates {
+  final String errorUser;
+
+  MediaCreteUserErrorState(this.errorUser);
+}
