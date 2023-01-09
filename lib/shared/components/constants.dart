@@ -11,7 +11,7 @@
 // }
 
 // ignore_for_file: avoid_print
-
+String? uId;
 //ترجع النص طويل بدون مايقتص
 void printFullText(String text) {
   final pattern = RegExp('.{1,800}');

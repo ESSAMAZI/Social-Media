@@ -48,11 +48,11 @@ class MediaRegisterCubit extends Cubit<MediaRegisterStates> {
   }) {
     //انشاء مودل خاص بنا من اجل التعامل مع البيانات
     MediaUserModel userModel = MediaUserModel(
-      emali: email,
-      name: name,
-      phone: phone,
-      uId: uId,
-    );
+        emali: email,
+        name: name,
+        phone: phone,
+        uId: uId,
+        isEmailVerified: false);
     //انشاء بيانات المستخدم
     FirebaseFirestore.instance
         .collection('users')

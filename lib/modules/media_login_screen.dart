@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:media/cubits/login/cubit.dart';
 import 'package:media/cubits/login/states.dart';
+import 'package:media/layout/media_layout.dart';
 import 'package:media/modules/media_register_screen.dart';
 import 'package:media/shared/components/components.dart';
+import 'package:media/shared/network/local.dart';
 
 class MediaLoginScreen extends StatelessWidget {
   const MediaLoginScreen({Key? key}) : super(key: key);
@@ -22,7 +24,19 @@ class MediaLoginScreen extends StatelessWidget {
       child: BlocConsumer<MediaLoginCubit, MediaLoginStates>(
           listener: (context, state) {
         if (state is MediaLoginErrorState) {
-          ShowToast(text: state.error, states: ToastStates.ERROR);
+          ShowToast(
+            text: state.error.toString(),
+            states: ToastStates.ERROR,
+          );
+        }
+        if (state is MediaLoginSuccessState) {
+          CacheHelper.saveDatas(
+            key: 'uId',
+            value: state.uId,
+          ).then((value) {
+            // token = state.loginmodel.data!.token;
+            navigateAndFinish(context, const MediaLayout());
+          });
         }
       }, builder: (context, state) {
         return Scaffold(
@@ -93,7 +107,7 @@ class MediaLoginScreen extends StatelessWidget {
                       const SizedBox(height: 10),
                       ConditionalBuilder(
                         //حيث تكون حاله الاستيت
-                        condition: state is! MediaLoadingState,
+                        condition: state is! MediaLoginLoadingState,
                         //انها لم تجلب البيانات رح تكون دائره الانتظار
                         //tru
                         builder: (context) => defaultButton(

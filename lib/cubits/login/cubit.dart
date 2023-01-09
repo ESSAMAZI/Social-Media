@@ -11,12 +11,12 @@ class MediaLoginCubit extends Cubit<MediaLoginStates> {
   static MediaLoginCubit get(context) => BlocProvider.of(context);
 
   void userLogin({required String email, required String password}) {
-    emit(MediaLoadingState());
+    emit(MediaLoginLoadingState());
     FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password)
         .then((value) {
       print(value.user!.email);
-      emit(MediaLoginSuccessState());
+      emit(MediaLoginSuccessState(value.user!.uid));
     }).catchError((onError) {
       emit(MediaLoginErrorState(onError.toString()));
     });

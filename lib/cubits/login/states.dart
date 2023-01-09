@@ -4,9 +4,13 @@ abstract class MediaLoginStates {}
 
 class MediaLoginInitialState extends MediaLoginStates {}
 
-class MediaLoadingState extends MediaLoginStates {}
+class MediaLoginLoadingState extends MediaLoginStates {}
 
-class MediaLoginSuccessState extends MediaLoginStates {}
+class MediaLoginSuccessState extends MediaLoginStates {
+  final String uId;
+
+  MediaLoginSuccessState(this.uId);
+}
 
 class MediaChangePasswordVisibilityState extends MediaLoginStates {}
 
