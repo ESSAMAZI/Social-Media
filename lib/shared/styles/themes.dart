@@ -42,10 +42,15 @@ ThemeData lightTheme = ThemeData(
   ),
   textTheme: const TextTheme(
       bodyText1: TextStyle(
-    fontSize: 18.0,
-    fontWeight: FontWeight.w600,
-    color: Colors.black,
-  )),
+        fontSize: 18.0,
+        fontWeight: FontWeight.w600,
+        color: Colors.black,
+      ),
+      subtitle1: TextStyle(
+        fontSize: 16.0,
+        fontWeight: FontWeight.w600,
+        color: Colors.black,
+      )),
 );
 //الثيم الابيض
 ThemeData darkTheme = ThemeData(
@@ -89,8 +94,13 @@ ThemeData darkTheme = ThemeData(
   textTheme: const TextTheme(
       //التعامل مع االنص محدد المساحه
       bodyText1: TextStyle(
-    fontSize: 18.0,
-    fontWeight: FontWeight.w600,
-    color: Colors.white,
-  )),
+        fontSize: 18.0,
+        fontWeight: FontWeight.w600,
+        color: Colors.white,
+      ),
+      subtitle1: TextStyle(
+        fontSize: 16.0,
+        fontWeight: FontWeight.w600,
+        color: Colors.white,
+      )),
 );
