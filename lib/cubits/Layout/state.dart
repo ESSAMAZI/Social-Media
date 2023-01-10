@@ -11,3 +11,5 @@ class MediaGetUserErrorState extends MediaStates {
 
   MediaGetUserErrorState(this.error);
 }
+
+class MedaiChangeBottomNavState extends MediaStates {}

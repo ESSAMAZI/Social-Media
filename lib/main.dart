@@ -9,6 +9,7 @@ import 'package:media/modules/media_login_screen.dart';
 import 'package:media/shared/Bloc_obServer.dart';
 import 'package:media/shared/components/constants.dart';
 import 'package:media/shared/network/local.dart';
+import 'package:media/shared/styles/themes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,10 +52,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Media show',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        //
+        theme: lightTheme,
         home: StartWidget,
       ),
     );
