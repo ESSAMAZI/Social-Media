@@ -47,10 +47,10 @@ ThemeData lightTheme = ThemeData(
         color: Colors.black,
       ),
       subtitle1: TextStyle(
-        fontSize: 16.0,
-        fontWeight: FontWeight.w600,
-        color: Colors.black,
-      )),
+          fontSize: 14.0,
+          fontWeight: FontWeight.w600,
+          color: Colors.black,
+          height: 1.3)),
 );
 //الثيم الابيض
 ThemeData darkTheme = ThemeData(
@@ -99,8 +99,8 @@ ThemeData darkTheme = ThemeData(
         color: Colors.white,
       ),
       subtitle1: TextStyle(
-        fontSize: 16.0,
-        fontWeight: FontWeight.w600,
-        color: Colors.white,
-      )),
+          fontSize: 14.0,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+          height: 1.3)),
 );
