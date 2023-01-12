@@ -5,6 +5,7 @@ import 'package:media/cubits/Layout/state.dart';
 import 'package:media/model/media_user_model.dart';
 import 'package:media/modules/screen/chat_screen.dart';
 import 'package:media/modules/screen/feed_screen.dart';
+import 'package:media/modules/screen/new_post_screen.dart';
 import 'package:media/modules/screen/setting_screen.dart';
 import 'package:media/modules/screen/users_screen.dart';
 import 'package:media/shared/components/constants.dart';
@@ -30,6 +31,7 @@ class MediaCubit extends Cubit<MediaStates> {
   List<String> titles = [
     'Home',
     'Chats',
+    'Post',
     'Users',
     'Settings',
   ];
@@ -38,6 +40,7 @@ class MediaCubit extends Cubit<MediaStates> {
   List<Widget> screens = const [
     FeedScreen(),
     ChatScreen(),
+    NewPostScreen(),
     UsersScreen(),
     SettingScreen(),
   ];

@@ -189,7 +189,7 @@ class FeedScreen extends StatelessWidget {
             ),
             //المنشور صوره
             Container(
-                height: 150.0,
+                height: 140.0,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4.0),
                   image: const DecorationImage(
