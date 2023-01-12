@@ -13,3 +13,6 @@ class MediaGetUserErrorState extends MediaStates {
 }
 
 class MedaiChangeBottomNavState extends MediaStates {}
+
+//اضافة تعليق
+class MedaiNewPostState extends MediaStates {}

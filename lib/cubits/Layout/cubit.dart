@@ -52,6 +52,10 @@ class MediaCubit extends Cubit<MediaStates> {
       label: 'Chat',
     ),
     const BottomNavigationBarItem(
+      icon: Icon(IconBroken.Paper_Upload),
+      label: 'Post',
+    ),
+    const BottomNavigationBarItem(
       icon: Icon(IconBroken.Location),
       label: 'Location',
     ),
@@ -61,8 +65,12 @@ class MediaCubit extends Cubit<MediaStates> {
     ),
   ];
   void changeBottomNav(int index) {
-    currentIndex = index;
-    emit(MedaiChangeBottomNavState());
+    if (index == 2) {
+      emit(MedaiNewPostState());
+    } else {
+      currentIndex = index;
+      emit(MedaiChangeBottomNavState());
+    }
   }
   // end create Bottom Navigation Bar Item
 }
