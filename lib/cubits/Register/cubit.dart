@@ -53,8 +53,10 @@ class MediaRegisterCubit extends Cubit<MediaRegisterStates> {
         phone: phone,
         uId: uId,
         bio: 'write you bio',
+        cover:
+            'https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041853.jpg?w=1380&t=st=1673729257~exp=1673729857~hmac=206a013ecd676b582e1a7077cca39658a1dcb8154e60793555f73c663ee38a8a',
         image:
-            'https://img.freepik.com/premium-vector/photo-upload-icon-picture-flat-icons-uploading-your-photo-logo-camera-sign-vector-eps-10-ui-icon-neumorphic-ui-ux-white-user-interface-web-button-neumorphism_399089-1831.jpg?w=826',
+            'https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?w=996&t=st=1673729375~exp=1673729975~hmac=3462120eadd3474de6774397eb192bca74992dd7e38553e4c79d32c9d5a0e2e8',
         isEmailVerified: false);
     //انشاء بيانات المستخدم
     FirebaseFirestore.instance
