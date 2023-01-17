@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:media/cubits/Layout/cubit.dart';
 import 'package:media/cubits/Layout/state.dart';
+import 'package:media/modules/screen/edit_profile_screen.dart';
+import 'package:media/shared/components/components.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({Key? key}) : super(key: key);
@@ -123,7 +125,9 @@ class SettingScreen extends StatelessWidget {
                   ),
                   const SizedBox(width: 10.0),
                   OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        navigateTo(context, const EditProfileScreen());
+                      },
                       child: const Icon(
                         Icons.edit,
                         size: 14.0,
