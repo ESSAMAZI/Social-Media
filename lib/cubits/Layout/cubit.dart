@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, deprecated_member_use
+// ignore_for_file: avoid_print, deprecated_member_use, non_constant_identifier_names
 
 import 'dart:io';
 
@@ -83,16 +83,33 @@ class MediaCubit extends Cubit<MediaStates> {
   // end create Bottom Navigation Bar Item
 
 //image
-  File? image;
+  File? profileImage;
   var picker = ImagePicker();
   Future<void> getProFileImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      image = File(pickedFile.path);
+      profileImage = File(pickedFile.path);
+      emit(MedaiProfileImagePickedSuccessState());
     } else {
       print('No iamge selected');
+      emit(MedaiProfileImagePickedErrorState());
     }
   }
   //end image
+
+  //Caver image
+  File? caverImage;
+
+  Future<void> getCaverImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      caverImage = File(pickedFile.path);
+      emit(MedaiCaverImagePickedSuccessState());
+    } else {
+      print('No iamge selected');
+      emit(MedaiCaverImagePickedErrorState());
+    }
+  }
+  //end caver image
 
 }

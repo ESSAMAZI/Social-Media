@@ -14,5 +14,14 @@ class MediaGetUserErrorState extends MediaStates {
 
 class MedaiChangeBottomNavState extends MediaStates {}
 
-//اضافة تعليق
+//اضافة منشور جديد
 class MedaiNewPostState extends MediaStates {}
+
+//اضافة صوره
+class MedaiProfileImagePickedSuccessState extends MediaStates {}
+
+class MedaiProfileImagePickedErrorState extends MediaStates {}
+
+class MedaiCaverImagePickedSuccessState extends MediaStates {}
+
+class MedaiCaverImagePickedErrorState extends MediaStates {}

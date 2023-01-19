@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,36 +15,48 @@ class EditProfileScreen extends StatelessWidget {
     return BlocConsumer<MediaCubit, MediaStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        var userModel = MediaCubit.get(context).mediaUserModel;
         var nameController = TextEditingController();
         var bioController = TextEditingController();
+        var userModel = MediaCubit.get(context).mediaUserModel;
 
+        //state image
+        dynamic profileImage = MediaCubit.get(context).profileImage;
+        dynamic caverImage = MediaCubit.get(context).caverImage;
+
+        //end image
+
+        //
+        nameController.text = userModel!.name!;
+        bioController.text = userModel.bio!;
         return Scaffold(
-          appBar: defaultAppBar(
-            context: context,
-            title: 'Edit Profile',
-            actions: [
-              defaultButton(onPressed: () {}, text: 'Update'),
-              const SizedBox(
-                width: 15.0,
-              )
-            ],
-          ),
+          appBar:
+              defaultAppBar(context: context, title: 'Edit Profile', actions: [
+            DefaulteTextButton(
+              onPressed: () {},
+              text: 'Update',
+            ),
+            const SizedBox(width: 15.0)
+          ]),
           body: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                // image profile
-                Container(
+                ///image profile
+                SizedBox(
                   height: 190.0,
                   child: Stack(
                     alignment: AlignmentDirectional.bottomCenter,
                     children: [
                       Align(
+                        //موضع الصورعه
+                        alignment: AlignmentDirectional.topCenter,
                         child: Stack(
+                          //اتجاه ايقونه التعديل الاطار
                           alignment: AlignmentDirectional.topEnd,
                           children: [
                             Container(
+
+                                ///مقدار تمدد الاطار
                                 height: 155.0,
                                 decoration: BoxDecoration(
                                   borderRadius: const BorderRadius.only(
@@ -52,13 +64,18 @@ class EditProfileScreen extends StatelessWidget {
                                     topRight: Radius.circular(4.0),
                                   ),
                                   image: DecorationImage(
-                                    image: NetworkImage('${userModel!.cover}'),
+                                    image: caverImage == null
+                                        ? NetworkImage('${userModel.cover}')
+                                        : FileImage(caverImage)
+                                            as ImageProvider,
                                     fit: BoxFit.cover,
                                   ),
                                 )),
                             IconButton(
-                                onPressed: () {},
-                                icon: CircleAvatar(
+                                onPressed: () {
+                                  MediaCubit.get(context).getCaverImage();
+                                },
+                                icon: const CircleAvatar(
                                   radius: 20.0,
                                   child: Icon(
                                     IconBroken.Camera,
@@ -67,10 +84,9 @@ class EditProfileScreen extends StatelessWidget {
                                 ))
                           ],
                         ),
-                        alignment: AlignmentDirectional.topCenter,
                       ),
-                      //image profile
-                      //الصوره الشخصيه لتعديل
+                      //       //image profile
+                      //       //الصوره الشخصيه لتعديل
                       Stack(
                         //موقع ايقونه لتعديل
                         alignment: AlignmentDirectional.bottomEnd,
@@ -81,14 +97,17 @@ class EditProfileScreen extends StatelessWidget {
                                 Theme.of(context).scaffoldBackgroundColor,
                             child: CircleAvatar(
                               radius: 60,
-                              backgroundImage:
-                                  NetworkImage('${userModel.image}'),
+                              backgroundImage: profileImage == null
+                                  ? NetworkImage('${userModel.image}')
+                                  : FileImage(profileImage) as ImageProvider,
                             ),
                           ),
-                          //ايقونه لتعديل
+                          //           //ايقونه لتعديل
                           IconButton(
-                              onPressed: () {},
-                              icon: CircleAvatar(
+                              onPressed: () {
+                                MediaCubit.get(context).getProFileImage();
+                              },
+                              icon: const CircleAvatar(
                                 radius: 20.0,
                                 child: Icon(
                                   IconBroken.Camera,
@@ -112,6 +131,7 @@ class EditProfileScreen extends StatelessWidget {
                     },
                     labelText: 'Name',
                     prefixIcon: IconBroken.User),
+                const SizedBox(height: 15.0),
                 defaultTextFormFiled(
                     controller: bioController,
                     type: TextInputType.text,
