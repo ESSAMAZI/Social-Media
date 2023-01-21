@@ -25,3 +25,20 @@ class MedaiProfileImagePickedErrorState extends MediaStates {}
 class MedaiCaverImagePickedSuccessState extends MediaStates {}
 
 class MedaiCaverImagePickedErrorState extends MediaStates {}
+//رفع الصوره الى الموقع
+
+class MedaiUploadProfileImageSuccessState extends MediaStates {}
+
+class MedaiUploadProfileImageErrorState extends MediaStates {}
+
+class MedaiUploadCaverImageSuccessState extends MediaStates {}
+
+class MedaiUploadCaverImageErrorState extends MediaStates {}
+
+class MedaiUsersUpdateSuccessState extends MediaStates {}
+
+class MedaiUsersUpdateErrorState extends MediaStates {
+  final String error;
+
+  MedaiUsersUpdateErrorState(this.error);
+}

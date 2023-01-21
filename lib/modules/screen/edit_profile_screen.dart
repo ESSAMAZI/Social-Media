@@ -17,6 +17,7 @@ class EditProfileScreen extends StatelessWidget {
       builder: (context, state) {
         var nameController = TextEditingController();
         var bioController = TextEditingController();
+        var phoneController = TextEditingController();
         var userModel = MediaCubit.get(context).mediaUserModel;
 
         //state image
@@ -28,11 +29,17 @@ class EditProfileScreen extends StatelessWidget {
         //
         nameController.text = userModel!.name!;
         bioController.text = userModel.bio!;
+        phoneController.text = userModel.phone!;
         return Scaffold(
           appBar:
               defaultAppBar(context: context, title: 'Edit Profile', actions: [
             DefaulteTextButton(
-              onPressed: () {},
+              onPressed: () {
+                MediaCubit.get(context).updateUser(
+                    name: nameController.text,
+                    bio: bioController.text,
+                    phone: phoneController.text);
+              },
               text: 'Update',
             ),
             const SizedBox(width: 15.0)
@@ -41,6 +48,10 @@ class EditProfileScreen extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
+                if (state is MedaiUsersUpdateSuccessState)
+                  const LinearProgressIndicator(),
+                const SizedBox(height: 10.0),
+
                 ///image profile
                 SizedBox(
                   height: 190.0,
@@ -119,7 +130,7 @@ class EditProfileScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 5.0),
+                const SizedBox(height: 10.0),
                 defaultTextFormFiled(
                     controller: nameController,
                     type: TextInputType.name,
@@ -131,7 +142,7 @@ class EditProfileScreen extends StatelessWidget {
                     },
                     labelText: 'Name',
                     prefixIcon: IconBroken.User),
-                const SizedBox(height: 15.0),
+                const SizedBox(height: 10.0),
                 defaultTextFormFiled(
                     controller: bioController,
                     type: TextInputType.text,
@@ -143,6 +154,18 @@ class EditProfileScreen extends StatelessWidget {
                     },
                     labelText: 'bio',
                     prefixIcon: IconBroken.User),
+                const SizedBox(height: 10.0),
+                defaultTextFormFiled(
+                    controller: phoneController,
+                    type: TextInputType.phone,
+                    validate: (String Value) {
+                      if (Value.isEmpty) {
+                        return 'phone must not be empty';
+                      }
+                      null;
+                    },
+                    labelText: 'phone',
+                    prefixIcon: IconBroken.Call),
               ],
             ),
           ),

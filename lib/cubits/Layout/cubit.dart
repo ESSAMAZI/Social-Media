@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print, deprecated_member_use, non_constant_identifier_names
 
 import 'dart:io';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,6 +16,7 @@ import 'package:media/modules/screen/setting_screen.dart';
 import 'package:media/modules/screen/users_screen.dart';
 import 'package:media/shared/components/constants.dart';
 import 'package:media/shared/styles/iconBroken.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class MediaCubit extends Cubit<MediaStates> {
   MediaCubit() : super(MediaInitialState());
@@ -82,7 +84,7 @@ class MediaCubit extends Cubit<MediaStates> {
   }
   // end create Bottom Navigation Bar Item
 
-//image
+//image in screen
   File? profileImage;
   var picker = ImagePicker();
   Future<void> getProFileImage() async {
@@ -112,4 +114,92 @@ class MediaCubit extends Cubit<MediaStates> {
   }
   //end caver image
 
+  //رفع الصوره
+
+  String uploadProfileUrl = '';
+  void uploadProfileImage() {
+    //الاتصال
+    firebase_storage.FirebaseStorage.instance
+        .ref()
+        //ان شاء مجلد
+        //جلب مسار الصوره كامله
+        //تقسيم المسار الصوره ثم يجلب اخر مسار اي اسم الصوره مع الامتداد
+        .child('users/${Uri.file(profileImage!.path).pathSegments.last}')
+        //ابدء رفع الصوره
+        .putFile(profileImage!)
+        .then((value) {
+      //جلب الرابط الخاص الصوره عند الرفع
+      value.ref.getDownloadURL().then((value) {
+        emit(MedaiUploadProfileImageSuccessState());
+        //اخذ الرابط
+        uploadProfileUrl = value;
+      }).catchError((onError) {
+        emit(MedaiUploadProfileImageErrorState());
+      });
+    }).catchError((onError) {
+      emit(MedaiUploadProfileImageErrorState());
+    });
+  }
+
+//رفع الصوره
+
+  String coverImageUrl = '';
+  void uploadCoverImage() {
+    //الاتصال
+    firebase_storage.FirebaseStorage.instance
+        .ref()
+        //ان شاء مجلد
+        //جلب مسار الصوره كامله
+        //تقسيم المسار الصوره ثم يجلب اخر مسار اي اسم الصوره مع الامتداد
+        .child('users/${Uri.file(caverImage!.path).pathSegments.last}')
+        //ابدء رفع الصوره
+        .putFile(caverImage!)
+        .then((value) {
+      //جلب الرابط الخاص الصوره عند الرفع
+      value.ref.getDownloadURL().then((value) {
+        emit(MedaiUploadProfileImageSuccessState());
+        //اخذ الرابط
+        coverImageUrl = value;
+      }).catchError((onError) {
+        emit(MedaiUploadProfileImageErrorState());
+      });
+    }).catchError((onError) {
+      emit(MedaiUploadProfileImageErrorState());
+    });
+  }
+
+  void updateUser({
+    required String name,
+    required String phone,
+    required String bio,
+  }) {
+    emit(MedaiUsersUpdateSuccessState());
+    if (caverImage != null) {
+      uploadCoverImage();
+    } else if (profileImage != null) {
+      uploadProfileImage();
+    } else if (profileImage != null && caverImage != null) {
+    } else {
+      MediaUserModel userModel = MediaUserModel(
+        name: name,
+        phone: phone,
+        bio: bio,
+        cover: mediaUserModel!.cover,
+        image: mediaUserModel!.image,
+        emali: mediaUserModel!.emali,
+        uId: mediaUserModel!.uId,
+        isEmailVerified: mediaUserModel!.isEmailVerified,
+      );
+      //updolad
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(mediaUserModel!.uId)
+          .update(userModel.toMap())
+          .then((value) {
+        getUserData();
+      }).catchError((onError) {
+        emit(MedaiUsersUpdateErrorState(onError));
+      });
+    }
+  }
 }
