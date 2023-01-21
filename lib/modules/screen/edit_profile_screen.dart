@@ -44,47 +44,80 @@ class EditProfileScreen extends StatelessWidget {
             ),
             const SizedBox(width: 15.0)
           ]),
-          body: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                if (state is MedaiUsersUpdateSuccessState)
-                  const LinearProgressIndicator(),
-                const SizedBox(height: 10.0),
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  if (state is MedaiUsersUpdateSuccessState)
+                    const LinearProgressIndicator(),
+                  const SizedBox(height: 10.0),
 
-                ///image profile
-                SizedBox(
-                  height: 190.0,
-                  child: Stack(
-                    alignment: AlignmentDirectional.bottomCenter,
-                    children: [
-                      Align(
-                        //موضع الصورعه
-                        alignment: AlignmentDirectional.topCenter,
-                        child: Stack(
-                          //اتجاه ايقونه التعديل الاطار
-                          alignment: AlignmentDirectional.topEnd,
+                  ///image profile
+                  SizedBox(
+                    height: 190.0,
+                    child: Stack(
+                      alignment: AlignmentDirectional.bottomCenter,
+                      children: [
+                        Align(
+                          //موضع الصورعه
+                          alignment: AlignmentDirectional.topCenter,
+                          child: Stack(
+                            //اتجاه ايقونه التعديل الاطار
+                            alignment: AlignmentDirectional.topEnd,
+                            children: [
+                              Container(
+
+                                  ///مقدار تمدد الاطار
+                                  height: 155.0,
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(4.0),
+                                      topRight: Radius.circular(4.0),
+                                    ),
+                                    image: DecorationImage(
+                                      image: caverImage == null
+                                          ? NetworkImage('${userModel.cover}')
+                                          : FileImage(caverImage)
+                                              as ImageProvider,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )),
+                              IconButton(
+                                  onPressed: () {
+                                    MediaCubit.get(context).getCaverImage();
+                                  },
+                                  icon: const CircleAvatar(
+                                    radius: 20.0,
+                                    child: Icon(
+                                      IconBroken.Camera,
+                                      size: 16.0,
+                                    ),
+                                  ))
+                            ],
+                          ),
+                        ),
+                        //       //image profile
+                        //       //الصوره الشخصيه لتعديل
+                        Stack(
+                          //موقع ايقونه لتعديل
+                          alignment: AlignmentDirectional.bottomEnd,
                           children: [
-                            Container(
-
-                                ///مقدار تمدد الاطار
-                                height: 155.0,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(4.0),
-                                    topRight: Radius.circular(4.0),
-                                  ),
-                                  image: DecorationImage(
-                                    image: caverImage == null
-                                        ? NetworkImage('${userModel.cover}')
-                                        : FileImage(caverImage)
-                                            as ImageProvider,
-                                    fit: BoxFit.cover,
-                                  ),
-                                )),
+                            CircleAvatar(
+                              radius: 64.0,
+                              backgroundColor:
+                                  Theme.of(context).scaffoldBackgroundColor,
+                              child: CircleAvatar(
+                                radius: 60,
+                                backgroundImage: profileImage == null
+                                    ? NetworkImage('${userModel.image}')
+                                    : FileImage(profileImage) as ImageProvider,
+                              ),
+                            ),
+                            //           //ايقونه لتعديل
                             IconButton(
                                 onPressed: () {
-                                  MediaCubit.get(context).getCaverImage();
+                                  MediaCubit.get(context).getProFileImage();
                                 },
                                 icon: const CircleAvatar(
                                   radius: 20.0,
@@ -95,78 +128,47 @@ class EditProfileScreen extends StatelessWidget {
                                 ))
                           ],
                         ),
-                      ),
-                      //       //image profile
-                      //       //الصوره الشخصيه لتعديل
-                      Stack(
-                        //موقع ايقونه لتعديل
-                        alignment: AlignmentDirectional.bottomEnd,
-                        children: [
-                          CircleAvatar(
-                            radius: 64.0,
-                            backgroundColor:
-                                Theme.of(context).scaffoldBackgroundColor,
-                            child: CircleAvatar(
-                              radius: 60,
-                              backgroundImage: profileImage == null
-                                  ? NetworkImage('${userModel.image}')
-                                  : FileImage(profileImage) as ImageProvider,
-                            ),
-                          ),
-                          //           //ايقونه لتعديل
-                          IconButton(
-                              onPressed: () {
-                                MediaCubit.get(context).getProFileImage();
-                              },
-                              icon: const CircleAvatar(
-                                radius: 20.0,
-                                child: Icon(
-                                  IconBroken.Camera,
-                                  size: 16.0,
-                                ),
-                              ))
-                        ],
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(height: 10.0),
-                defaultTextFormFiled(
-                    controller: nameController,
-                    type: TextInputType.name,
-                    validate: (String Value) {
-                      if (Value.isEmpty) {
-                        return 'name must not be empty';
-                      }
-                      null;
-                    },
-                    labelText: 'Name',
-                    prefixIcon: IconBroken.User),
-                const SizedBox(height: 10.0),
-                defaultTextFormFiled(
-                    controller: bioController,
-                    type: TextInputType.text,
-                    validate: (String Value) {
-                      if (Value.isEmpty) {
-                        return 'bio must not be empty';
-                      }
-                      null;
-                    },
-                    labelText: 'bio',
-                    prefixIcon: IconBroken.User),
-                const SizedBox(height: 10.0),
-                defaultTextFormFiled(
-                    controller: phoneController,
-                    type: TextInputType.phone,
-                    validate: (String Value) {
-                      if (Value.isEmpty) {
-                        return 'phone must not be empty';
-                      }
-                      null;
-                    },
-                    labelText: 'phone',
-                    prefixIcon: IconBroken.Call),
-              ],
+                  const SizedBox(height: 10.0),
+                  defaultTextFormFiled(
+                      controller: nameController,
+                      type: TextInputType.name,
+                      validate: (String Value) {
+                        if (Value.isEmpty) {
+                          return 'name must not be empty';
+                        }
+                        null;
+                      },
+                      labelText: 'Name',
+                      prefixIcon: IconBroken.User),
+                  const SizedBox(height: 10.0),
+                  defaultTextFormFiled(
+                      controller: bioController,
+                      type: TextInputType.text,
+                      validate: (String Value) {
+                        if (Value.isEmpty) {
+                          return 'bio must not be empty';
+                        }
+                        null;
+                      },
+                      labelText: 'bio',
+                      prefixIcon: IconBroken.User),
+                  const SizedBox(height: 10.0),
+                  defaultTextFormFiled(
+                      controller: phoneController,
+                      type: TextInputType.phone,
+                      validate: (String Value) {
+                        if (Value.isEmpty) {
+                          return 'phone must not be empty';
+                        }
+                        null;
+                      },
+                      labelText: 'phone',
+                      prefixIcon: IconBroken.Call),
+                ],
+              ),
             ),
           ),
         );

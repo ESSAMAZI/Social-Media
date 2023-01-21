@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_print, deprecated_member_use, non_constant_identifier_names
 
 import 'dart:io';
-import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
