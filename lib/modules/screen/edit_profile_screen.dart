@@ -49,9 +49,10 @@ class EditProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  if (state is MedaiUsersUpdateSuccessState)
+                  if (state is MedaiUsersUpdateLoadingState)
                     const LinearProgressIndicator(),
-                  const SizedBox(height: 10.0),
+                  if (state is MedaiUsersUpdateLoadingState)
+                    const SizedBox(height: 10.0),
 
                   ///image profile
                   SizedBox(
@@ -131,7 +132,56 @@ class EditProfileScreen extends StatelessWidget {
                       ],
                     ),
                   ),
+
                   const SizedBox(height: 10.0),
+                  if (MediaCubit.get(context).profileImage != null ||
+                      MediaCubit.get(context).caverImage != null)
+                    Row(
+                      children: [
+                        if (MediaCubit.get(context).profileImage != null)
+                          Expanded(
+                              child: Column(
+                            children: [
+                              defaultButton(
+                                  onPressed: () {
+                                    MediaCubit.get(context).uploadProfileImage(
+                                      name: nameController.text,
+                                      phone: phoneController.text,
+                                      bio: bioController.text,
+                                    );
+                                  },
+                                  text: 'UpLoad Profile '),
+                              // if (state is MedaiUsersUpdateLoadingState)
+                              //   const SizedBox(height: 5.0),
+                              // if (state is MedaiUsersUpdateLoadingState)
+                              //   const LinearProgressIndicator()
+                            ],
+                          )),
+                        const SizedBox(width: 5.0),
+                        if (MediaCubit.get(context).caverImage != null)
+                          Expanded(
+                              child: Column(
+                            children: [
+                              defaultButton(
+                                  onPressed: () {
+                                    MediaCubit.get(context).uploadCoverImage(
+                                      name: nameController.text,
+                                      phone: phoneController.text,
+                                      bio: bioController.text,
+                                    );
+                                  },
+                                  text: 'UpLoad Cover '),
+                              // if (state is MedaiUsersUpdateLoadingState)
+                              //   const SizedBox(height: 5.0),
+                              // if (state is MedaiUsersUpdateLoadingState)
+                              //   const LinearProgressIndicator()
+                            ],
+                          )),
+                      ],
+                    ),
+                  if (MediaCubit.get(context).profileImage != null ||
+                      MediaCubit.get(context).caverImage != null)
+                    const SizedBox(height: 20.0),
                   defaultTextFormFiled(
                       controller: nameController,
                       type: TextInputType.name,

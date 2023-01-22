@@ -21,6 +21,8 @@ class MediaCubit extends Cubit<MediaStates> {
   MediaCubit() : super(MediaInitialState());
   static MediaCubit get(context) => BlocProvider.of(context);
   MediaUserModel? mediaUserModel;
+
+  //جلب بيانات
   void getUserData() {
     emit(MediaGetUserLoadingState());
     FirebaseFirestore.instance.collection('users').doc(uId).get().then((value) {
@@ -115,8 +117,12 @@ class MediaCubit extends Cubit<MediaStates> {
 
   //رفع الصوره
 
-  String uploadProfileUrl = '';
-  void uploadProfileImage() {
+  void uploadProfileImage({
+    required String name,
+    required String phone,
+    required String bio,
+  }) {
+    emit(MedaiUsersUpdateLoadingState());
     //الاتصال
     firebase_storage.FirebaseStorage.instance
         .ref()
@@ -129,9 +135,9 @@ class MediaCubit extends Cubit<MediaStates> {
         .then((value) {
       //جلب الرابط الخاص الصوره عند الرفع
       value.ref.getDownloadURL().then((value) {
-        emit(MedaiUploadProfileImageSuccessState());
+        //emit(MedaiUploadProfileImageSuccessState());
         //اخذ الرابط
-        uploadProfileUrl = value;
+        updateUser(name: name, phone: phone, bio: bio, profile: value);
       }).catchError((onError) {
         emit(MedaiUploadProfileImageErrorState());
       });
@@ -142,8 +148,12 @@ class MediaCubit extends Cubit<MediaStates> {
 
 //رفع الصوره
 
-  String coverImageUrl = '';
-  void uploadCoverImage() {
+  void uploadCoverImage({
+    required String name,
+    required String phone,
+    required String bio,
+  }) {
+    emit(MedaiUsersUpdateLoadingState());
     //الاتصال
     firebase_storage.FirebaseStorage.instance
         .ref()
@@ -156,9 +166,9 @@ class MediaCubit extends Cubit<MediaStates> {
         .then((value) {
       //جلب الرابط الخاص الصوره عند الرفع
       value.ref.getDownloadURL().then((value) {
-        emit(MedaiUploadProfileImageSuccessState());
+        //emit(MedaiUploadProfileImageSuccessState());
+        updateUser(name: name, phone: phone, bio: bio, cover: value);
         //اخذ الرابط
-        coverImageUrl = value;
       }).catchError((onError) {
         emit(MedaiUploadProfileImageErrorState());
       });
@@ -167,38 +177,49 @@ class MediaCubit extends Cubit<MediaStates> {
     });
   }
 
+  // void updateUserImages({
+  //   required String name,
+  //   required String phone,
+  //   required String bio,
+  // }) {
+  //   emit(MedaiUsersUpdateSuccessState());
+  //   if (caverImage != null) {
+  //     uploadCoverImage();
+  //   } else if (profileImage != null) {
+  //     uploadProfileImage();
+  //   } else if (profileImage != null && caverImage != null) {
+  //   } else {
+  //     updateUser(name: name, bio: bio, phone: phone);
+  //   }
+  // }
+
   void updateUser({
     required String name,
     required String phone,
     required String bio,
+    String? cover,
+    String? profile,
   }) {
-    emit(MedaiUsersUpdateSuccessState());
-    if (caverImage != null) {
-      uploadCoverImage();
-    } else if (profileImage != null) {
-      uploadProfileImage();
-    } else if (profileImage != null && caverImage != null) {
-    } else {
-      MediaUserModel userModel = MediaUserModel(
-        name: name,
-        phone: phone,
-        bio: bio,
-        cover: mediaUserModel!.cover,
-        image: mediaUserModel!.image,
-        emali: mediaUserModel!.emali,
-        uId: mediaUserModel!.uId,
-        isEmailVerified: mediaUserModel!.isEmailVerified,
-      );
-      //updolad
-      FirebaseFirestore.instance
-          .collection('users')
-          .doc(mediaUserModel!.uId)
-          .update(userModel.toMap())
-          .then((value) {
-        getUserData();
-      }).catchError((onError) {
-        emit(MedaiUsersUpdateErrorState(onError));
-      });
-    }
+    emit(MedaiUsersUpdateLoadingState());
+    MediaUserModel userModel = MediaUserModel(
+      name: name,
+      phone: phone,
+      bio: bio,
+      cover: cover ?? mediaUserModel!.cover,
+      image: profile ?? mediaUserModel!.image,
+      emali: mediaUserModel!.emali,
+      uId: mediaUserModel!.uId,
+      isEmailVerified: mediaUserModel!.isEmailVerified,
+    );
+    //updolad
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(mediaUserModel!.uId)
+        .update(userModel.toMap())
+        .then((value) {
+      getUserData();
+    }).catchError((onError) {
+      emit(MedaiUsersUpdateErrorState(onError));
+    });
   }
 }

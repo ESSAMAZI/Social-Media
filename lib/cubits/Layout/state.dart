@@ -35,6 +35,9 @@ class MedaiUploadCaverImageSuccessState extends MediaStates {}
 
 class MedaiUploadCaverImageErrorState extends MediaStates {}
 
+//update data
+class MedaiUsersUpdateLoadingState extends MediaStates {}
+
 class MedaiUsersUpdateSuccessState extends MediaStates {}
 
 class MedaiUsersUpdateErrorState extends MediaStates {
