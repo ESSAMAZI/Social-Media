@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:media/cubits/Layout/state.dart';
 import 'package:media/model/media_user_model.dart';
+import 'package:media/model/post_model.dart';
 import 'package:media/modules/screen/chat_screen.dart';
 import 'package:media/modules/screen/feed_screen.dart';
 import 'package:media/modules/screen/new_post_screen.dart';
@@ -222,4 +223,78 @@ class MediaCubit extends Cubit<MediaStates> {
       emit(MedaiUsersUpdateErrorState(onError));
     });
   }
+
+  //create Post
+
+  // post image
+  File? postImage;
+  void removePostImage() {
+    postImage = null;
+    emit(MedaiRemovePostImageState());
+  }
+
+  Future<void> getpostImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      postImage = File(pickedFile.path);
+      emit(MedaiPostImagePickedSuccessState());
+    } else {
+      print('No iamge selected');
+      emit(MedaiPostImagePickedErrorState());
+    }
+  }
+
+  //end post image
+  void uploadPostImage({
+    required String dateTime,
+    required String text,
+  }) {
+    emit(MedaiCreatePostLoadingState());
+    //الاتصال
+    firebase_storage.FirebaseStorage.instance
+        .ref()
+        //ان شاء مجلد
+        //جلب مسار الصوره كامله
+        //تقسيم المسار الصوره ثم يجلب اخر مسار اي اسم الصوره مع الامتداد
+        .child('posts/${Uri.file(postImage!.path).pathSegments.last}')
+        //ابدء رفع الصوره
+        .putFile(postImage!)
+        .then((value) {
+      //جلب الرابط الخاص الصوره عند الرفع
+      value.ref.getDownloadURL().then((value) {
+        //عند اضافة صوره نقوم بارسال
+        createPost(text: text, dateTime: dateTime, postImage: value);
+      }).catchError((onError) {
+        emit((MedaiCreatePostErrorState(onError.toString())));
+      });
+    }).catchError((onError) {
+      emit(MedaiCreatePostErrorState(onError.toString()));
+    });
+  }
+
+  //add post no image
+
+  void createPost(
+      {required String dateTime, required String text, String? postImage}) {
+    emit(MedaiCreatePostLoadingState());
+
+    PostModel postModel = PostModel(
+      name: mediaUserModel!.name,
+      image: mediaUserModel!.image,
+      uId: mediaUserModel!.uId,
+      dataTime: dateTime,
+      text: text,
+      postImage: postImage ?? '',
+    );
+    //updolad
+    FirebaseFirestore.instance
+        .collection('posts')
+        .add(postModel.toMap())
+        .then((value) {
+      emit(MedaiCreatePostSuccessState());
+    }).catchError((onError) {
+      emit(MedaiCreatePostErrorState(onError));
+    });
+  }
+  //end create Post
 }

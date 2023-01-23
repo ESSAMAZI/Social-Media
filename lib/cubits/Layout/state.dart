@@ -45,3 +45,24 @@ class MedaiUsersUpdateErrorState extends MediaStates {
 
   MedaiUsersUpdateErrorState(this.error);
 }
+
+///create post
+class MedaiCreatePostLoadingState extends MediaStates {}
+
+class MedaiCreatePostSuccessState extends MediaStates {}
+
+class MedaiCreatePostErrorState extends MediaStates {
+  final String error;
+
+  MedaiCreatePostErrorState(this.error);
+}
+
+///end create post
+// post get image
+
+class MedaiPostImagePickedSuccessState extends MediaStates {}
+
+class MedaiPostImagePickedErrorState extends MediaStates {}
+
+class MedaiRemovePostImageState extends MediaStates {}
+// endpost get image
