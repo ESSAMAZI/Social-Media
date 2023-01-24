@@ -284,7 +284,7 @@ class MediaCubit extends Cubit<MediaStates> {
       uId: mediaUserModel!.uId,
       dataTime: dateTime,
       text: text,
-      postImage: postImage ?? '',
+      postImage: postImage,
     );
     //updolad
     FirebaseFirestore.instance

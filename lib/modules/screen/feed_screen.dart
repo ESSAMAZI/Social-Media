@@ -208,7 +208,7 @@ class FeedScreen extends StatelessWidget {
             // ),
 
             //المنشور صوره
-            if (postModel.image != '')
+            if (postModel.postImage != null)
               Padding(
                 padding: const EdgeInsetsDirectional.only(top: 15.0),
                 child: Container(
@@ -222,6 +222,7 @@ class FeedScreen extends StatelessWidget {
                       ),
                     )),
               ),
+
             //عداد التعليقات والاعجابات
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 5.0),
