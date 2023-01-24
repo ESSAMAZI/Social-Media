@@ -66,3 +66,15 @@ class MedaiPostImagePickedErrorState extends MediaStates {}
 
 class MedaiRemovePostImageState extends MediaStates {}
 // endpost get image
+
+//get All Post
+class MediaGetPostLoadingState extends MediaStates {}
+
+class MediaGetPostSuccessState extends MediaStates {}
+
+class MediaGetPostErrorState extends MediaStates {
+  final String error;
+
+  MediaGetPostErrorState(this.error);
+}
+//end get All Post

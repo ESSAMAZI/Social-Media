@@ -46,7 +46,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           //جلب البيانات  التحقق من ان الايميل محقق وصحيح
-          create: (context) => MediaCubit()..getUserData(),
+          create: (context) => MediaCubit()
+            ..getUserData()
+            ..getPosts(),
         ),
       ],
       child: MaterialApp(

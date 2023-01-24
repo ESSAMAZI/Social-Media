@@ -297,4 +297,20 @@ class MediaCubit extends Cubit<MediaStates> {
     });
   }
   //end create Post
+
+  //get all post
+  List<PostModel> posts = [];
+  void getPosts() {
+    // get data all posts
+    FirebaseFirestore.instance.collection('posts').get().then((value) {
+      // for all posts get
+      for (var element in value.docs) {
+        //element محتوى كل منشور
+        posts.add(PostModel.fromJson(element.data()));
+      }
+    }).catchError((onError) {
+      emit(MediaGetPostErrorState(onError.toString()));
+    });
+  }
+  //end get all post
 }
