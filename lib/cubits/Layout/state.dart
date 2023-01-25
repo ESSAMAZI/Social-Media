@@ -78,3 +78,13 @@ class MediaGetPostErrorState extends MediaStates {
   MediaGetPostErrorState(this.error);
 }
 //end get All Post
+
+//Posts Like
+class MediaLikePostSuccessState extends MediaStates {}
+
+class MediaLikePostErrorState extends MediaStates {
+  final String error;
+
+  MediaLikePostErrorState(this.error);
+}
+//end Posts Like

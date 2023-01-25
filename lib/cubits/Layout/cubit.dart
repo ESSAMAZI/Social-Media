@@ -300,17 +300,46 @@ class MediaCubit extends Cubit<MediaStates> {
 
   //get all post
   List<PostModel> posts = [];
+  // get postID
+  List<String> postsId = [];
+  // end get postID
+  //like conter
+  List<int> likes = [];
+  //like conter
+
   void getPosts() {
     // get data all posts
     FirebaseFirestore.instance.collection('posts').get().then((value) {
       // for all posts get
       for (var element in value.docs) {
-        //element محتوى كل منشور
-        posts.add(PostModel.fromJson(element.data()));
+        element.reference.collection('likes').get().then((value) {
+          likes.add(value.docs.length);
+          // get postID
+          postsId.add(element.id);
+          // end get postID
+          //element محتوى كل منشور
+          posts.add(PostModel.fromJson(element.data()));
+        }).catchError((onError) {});
       }
+      emit(MediaGetPostSuccessState());
     }).catchError((onError) {
       emit(MediaGetPostErrorState(onError.toString()));
     });
   }
   //end get all post
+
+  //Posts Like
+  void likePost(String postId) {
+    FirebaseFirestore.instance
+        .collection('posts') //posts tree
+        .doc(postId) //id posts
+        .collection('likes') //tree new
+        .doc(mediaUserModel!.uId) //lisk users
+        .set({'like': true}).then((value) {
+      emit(MediaLikePostSuccessState());
+    }).catchError((onError) {
+      emit(MediaLikePostErrorState(onError.toString()));
+    });
+  }
+  //end Posts Like
 }

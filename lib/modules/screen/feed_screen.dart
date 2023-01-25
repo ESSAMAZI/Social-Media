@@ -17,7 +17,8 @@ class FeedScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return ConditionalBuilder(
-            condition: MediaCubit.get(context).posts.isNotEmpty,
+            condition: MediaCubit.get(context).posts.isNotEmpty &&
+                MediaCubit.get(context).mediaUserModel != null,
             builder: (context) {
               return SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
@@ -52,7 +53,7 @@ class FeedScreen extends StatelessWidget {
                     // ),
                     ListView.separated(
                       itemBuilder: (context, index) => buildPost(
-                          MediaCubit.get(context).posts[index], context),
+                          MediaCubit.get(context).posts[index], context, index),
                       itemCount: MediaCubit.get(context).posts.length,
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
@@ -71,7 +72,9 @@ class FeedScreen extends StatelessWidget {
     );
   }
 
-  Widget buildPost(PostModel postModel, context) => //معلومات صاحب المنشور
+//index id posts
+  Widget buildPost(
+          PostModel postModel, context, index) => //معلومات صاحب المنشور
       Card(
         clipBehavior: Clip.antiAliasWithSaveLayer,
         elevation: 5.0,
@@ -238,7 +241,7 @@ class FeedScreen extends StatelessWidget {
                             const Icon(IconBroken.Heart,
                                 size: 17.0, color: Colors.red),
                             const SizedBox(width: 5.0),
-                            Text('0',
+                            Text('${MediaCubit.get(context).likes[index]}',
                                 style: Theme.of(context).textTheme.caption),
                           ],
                         ),
@@ -298,7 +301,10 @@ class FeedScreen extends StatelessWidget {
                   ),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    MediaCubit.get(context)
+                        .likePost(MediaCubit.get(context).postsId[index]);
+                  },
                   child: Row(
                     children: [
                       const Icon(IconBroken.Heart,
