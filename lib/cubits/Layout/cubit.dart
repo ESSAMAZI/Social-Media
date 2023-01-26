@@ -342,4 +342,20 @@ class MediaCubit extends Cubit<MediaStates> {
     });
   }
   //end Posts Like
+
+  //get All Users
+  List<MediaUserModel> users = [];
+  void getUsers() {
+    // get data all users
+    FirebaseFirestore.instance.collection('users').get().then((value) {
+      // for all users get
+      for (var element in value.docs) {
+        users.add(MediaUserModel.fromJson(element.data()));
+      }
+      emit(MediaGetAllUsersSuccessState());
+    }).catchError((onError) {
+      emit(MediaGetAllUsersErrorState(onError.toString()));
+    });
+  }
+  //end get All Users
 }

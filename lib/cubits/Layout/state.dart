@@ -88,3 +88,16 @@ class MediaLikePostErrorState extends MediaStates {
   MediaLikePostErrorState(this.error);
 }
 //end Posts Like
+
+//get All users
+
+class MediaGetAllUsersLoadingState extends MediaStates {}
+
+class MediaGetAllUsersSuccessState extends MediaStates {}
+
+class MediaGetAllUsersErrorState extends MediaStates {
+  final String error;
+
+  MediaGetAllUsersErrorState(this.error);
+}
+//end get All users

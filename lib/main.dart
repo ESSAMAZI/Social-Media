@@ -48,7 +48,8 @@ class MyApp extends StatelessWidget {
           //جلب البيانات  التحقق من ان الايميل محقق وصحيح
           create: (context) => MediaCubit()
             ..getUserData()
-            ..getPosts(),
+            ..getPosts()
+            ..getUsers(),
         ),
       ],
       child: MaterialApp(
