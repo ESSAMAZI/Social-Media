@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:media/cubits/Layout/cubit.dart';
 import 'package:media/cubits/Layout/state.dart';
 import 'package:media/model/media_user_model.dart';
+import 'package:media/modules/screen/chat_details_Screen.dart';
 import 'package:media/shared/components/components.dart';
 
 class ChatScreen extends StatelessWidget {
@@ -20,22 +21,26 @@ class ChatScreen extends StatelessWidget {
             return ListView.separated(
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return buildChatItem(MediaCubit.get(context).users[index]);
+                  return buildChatItem(
+                      MediaCubit.get(context).users[index], context);
                 },
                 separatorBuilder: (context, index) {
                   return myDivider();
                 },
                 itemCount: MediaCubit.get(context).users.length);
           },
-          fallback: (context) => const CircularProgressIndicator(),
+          fallback: (context) =>
+              const Center(child: CircularProgressIndicator()),
         );
       },
     );
   }
 }
 
-Widget buildChatItem(MediaUserModel mediaUserModel) => InkWell(
-      onTap: () {},
+Widget buildChatItem(MediaUserModel mediaUserModel, context) => InkWell(
+      onTap: () {
+        navigateTo(context, ChatDetailsScreen(userModel: mediaUserModel));
+      },
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Row(
