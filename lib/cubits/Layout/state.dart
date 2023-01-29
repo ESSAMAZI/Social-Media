@@ -101,3 +101,22 @@ class MediaGetAllUsersErrorState extends MediaStates {
   MediaGetAllUsersErrorState(this.error);
 }
 //end get All users
+
+//send message and get message
+
+class MediaSendMessageSuccessState extends MediaStates {}
+
+class MediaSendMessageErrorState extends MediaStates {
+  final String error;
+
+  MediaSendMessageErrorState(this.error);
+}
+
+class MediaGetMessageSuccessState extends MediaStates {}
+
+class MediaGetMessageErrorState extends MediaStates {
+  final String error;
+
+  MediaGetMessageErrorState(this.error);
+}
+//end send message and get message

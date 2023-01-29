@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:media/cubits/Layout/state.dart';
 import 'package:media/model/media_user_model.dart';
+import 'package:media/model/message_model.dart';
 import 'package:media/model/post_model.dart';
 import 'package:media/modules/screen/chat_screen.dart';
 import 'package:media/modules/screen/feed_screen.dart';
@@ -367,4 +368,47 @@ class MediaCubit extends Cubit<MediaStates> {
     }
   }
   //end get All Users
+
+  //send Message
+  void sendMessage({
+    required String receiverId,
+    required String dataTime,
+    required String text,
+  }) {
+    MessageModle messageModle = MessageModle(
+        text: text,
+        dateTime: dataTime,
+        reciverId: receiverId,
+        senderId: mediaUserModel!.uId);
+    //user1 عند المرسل
+    //set my chat
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(mediaUserModel!.uId)
+        .collection('chats')
+        .doc(receiverId)
+        .collection('messages')
+        .add(messageModle.toMap())
+        .then((value) {
+      emit(MediaSendMessageSuccessState());
+    }).catchError((onError) {
+      emit(MediaSendMessageErrorState(onError.toString()));
+    });
+    //user2 عند المستلم
+    //set receiver chats
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(receiverId)
+        .collection('chats')
+        .doc(mediaUserModel!.uId)
+        .collection('messages')
+        .add(messageModle.toMap())
+        .then((value) {
+      emit(MediaSendMessageSuccessState());
+    }).catchError((onError) {
+      emit(MediaSendMessageErrorState(onError.toString()));
+    });
+  }
+
+  //end send Message
 }
