@@ -104,6 +104,8 @@ class MediaGetAllUsersErrorState extends MediaStates {
 
 //send message and get message
 
+class MediaSendMessageLoadingState extends MediaStates {}
+
 class MediaSendMessageSuccessState extends MediaStates {}
 
 class MediaSendMessageErrorState extends MediaStates {

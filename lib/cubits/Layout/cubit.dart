@@ -375,6 +375,7 @@ class MediaCubit extends Cubit<MediaStates> {
     required String dataTime,
     required String text,
   }) {
+    emit(MediaSendMessageLoadingState());
     MessageModle messageModle = MessageModle(
         text: text,
         dateTime: dataTime,
@@ -411,4 +412,25 @@ class MediaCubit extends Cubit<MediaStates> {
   }
 
   //end send Message
+
+  //show get Messages
+  List<MessageModle> messages = [];
+  void getMessages({required String receiverId}) {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(mediaUserModel!.uId)
+        .collection('chats')
+        .doc(receiverId)
+        .collection('messages')
+        .orderBy('dateTime') //ترتيب البيانات
+        .snapshots() //مستمع يحدث البيانات بشكل لحظي
+        .listen((event) {
+      messages = [];
+      for (var element in event.docs) {
+        messages.add(MessageModle.fromJson(element.data()));
+      }
+      emit(MediaGetMessageSuccessState());
+    });
+  }
+  //end show get Messages
 }
